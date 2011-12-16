@@ -16,7 +16,7 @@ public class FilesContainer
 {
     private String name;
     private List<FilesObject> objects = null;
-    private FilesClient client = null;
+    private FilesClientInterface client = null;
     private static Logger logger = Logger.getLogger(FilesContainer.class);
 
     /**
@@ -26,7 +26,7 @@ public class FilesContainer
      * @param objs    The objects in that container
      * @param client  The client we are currently using
      */
-    public FilesContainer(String name, List<FilesObject> objs, FilesClient client)
+    public FilesContainer(String name, List<FilesObject> objs, FilesClientInterface client)
     {
         this.name = name;
         this.objects = objs;
@@ -37,7 +37,7 @@ public class FilesContainer
      * @param name The name of the container
      * @param client A logged in client
      */
-    public FilesContainer(String name, FilesClient client)
+    public FilesContainer(String name, FilesClientInterface client)
     {
         this.name = name;
         this.client = client;
@@ -143,7 +143,7 @@ public class FilesContainer
      * 
      * @return The FilesClient
      */
-    public FilesClient getClient()
+    public FilesClientInterface getClient()
     {
         return this.client;                
     }

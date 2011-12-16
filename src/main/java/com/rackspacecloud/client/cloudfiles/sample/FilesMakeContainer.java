@@ -77,7 +77,7 @@ public class FilesMakeContainer
 
 		//Check to see if a Container with this name already exists
 
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		if ( client.login() )
 		{
 			client.createContainer(containerName);

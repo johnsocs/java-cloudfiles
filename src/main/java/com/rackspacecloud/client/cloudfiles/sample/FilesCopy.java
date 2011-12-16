@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import com.rackspacecloud.client.cloudfiles.FilesAuthorizationException;
 import com.rackspacecloud.client.cloudfiles.FilesClient;
+import com.rackspacecloud.client.cloudfiles.FilesClientInterface;
 import com.rackspacecloud.client.cloudfiles.FilesConstants;
 import com.rackspacecloud.client.cloudfiles.FilesException;
 import com.rackspacecloud.client.cloudfiles.FilesObject;
@@ -243,7 +244,7 @@ public class FilesCopy
 
 	public static void getContainerObjects (File localFolder, String containerName) throws IOException, HttpException, FilesAuthorizationException, NoSuchAlgorithmException, FilesException
 	{
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		if ( client.login() )
 		{
 			if (client.containerExists(containerName))
@@ -277,7 +278,7 @@ public class FilesCopy
 	 */
 	private static void copyToCreateContainerIfNeeded (File file, String mimeType,String containerName) throws IOException, HttpException, NoSuchAlgorithmException, FilesException
 	{
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		if ( client.login() )
 		{
 			if (client.containerExists(containerName))
@@ -308,7 +309,7 @@ public class FilesCopy
 	 */
 	private static void copyTo (File file, String mimeType,String containerName) throws IOException, HttpException, NoSuchAlgorithmException, FilesException
 	{
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		if ( client.login() )
 		{
 			if (client.containerExists(containerName))

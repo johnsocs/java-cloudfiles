@@ -18,7 +18,7 @@ public class FilesObject
     private long size = -1;
     private String mimeType = null;
     private String lastModified = null;
-    private FilesClient client = null;
+    private FilesClientInterface client = null;
 
     private static Logger logger = Logger.getLogger(FilesObject.class);
 
@@ -73,7 +73,7 @@ public class FilesObject
      * @param container The name of it's container
      * @param client    The client it can be accessed through.
      */
-    FilesObject(String name, String container, FilesClient client )
+    FilesObject(String name, String container, FilesClientInterface client )
     {
         this.name = name;
         this.container = container;
@@ -272,7 +272,7 @@ public class FilesObject
     /**
      * @param client The new client for this object
      */
-    void setClient(FilesClient client)
+    void setClient(FilesClientInterface client)
     {
         this.client = client;
     }
@@ -293,7 +293,7 @@ public class FilesObject
     	FilesObject result = null;
     	try {
     		result = new FilesObject(obj, mimeType, container);
-    		FilesClient client = container.getClient();
+    		FilesClientInterface client = container.getClient();
     		client.storeObjectAs(container.getName(), obj, mimeType, obj.getName(), callback);
     	}
     	catch (NoSuchAlgorithmException nsae) {

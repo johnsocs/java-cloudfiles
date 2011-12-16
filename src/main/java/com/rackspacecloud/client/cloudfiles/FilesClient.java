@@ -110,7 +110,7 @@ import com.rackspacecloud.client.cloudfiles.wrapper.RequestEntityWrapper;
  * 
  * @author lvaughn
  */
-public class FilesClient
+public class FilesClient implements FilesClientInterface
 {
     public static final String VERSION = "v1";
 
@@ -232,21 +232,17 @@ public class FilesClient
         	  FilesUtil.getIntProperty("connection_timeout"));
     }
 
-    /**
-     * Returns the Account associated with the URL
-     * 
-     * @return The account name
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getAccount()
+	 */
     public String getAccount()
     {
         return account;
     }
 
-    /**
-     * Set the Account value and reassemble the Authentication URL.
-     *
-     * @param account
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#setAccount(java.lang.String)
+	 */
     public void setAccount(String account)
     {
         this.account = account;
@@ -258,14 +254,9 @@ public class FilesClient
         }
     }
 
-    /**
-     * Log in to CloudFiles.  This method performs the authentication and sets up the client's internal state.
-     * 
-     * @return true if the login was successful, false otherwise.
-     * 
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#login()
+	 */
     public boolean login() throws IOException, HttpException
     {
         HttpGet method = new HttpGet(authenticationURL);
@@ -300,12 +291,9 @@ public class FilesClient
     }
     
 
-    /**
-     * Log in to CloudFiles.  This method performs the authentication and sets up the client's internal state.
-     * 
-      * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#login(java.lang.String, java.lang.String, java.lang.String)
+	 */
     public boolean login(String authToken, String storageURL, String cdnManagmentUrl) throws IOException, HttpException
     {
     	isLoggedin   = true;
@@ -315,51 +303,25 @@ public class FilesClient
     	return true;
     }
     
-    /**
-     * List all of the containers available in an account, ordered by container name.
-     *
-     * @return null if the user is not logged in or the Account is not found.  A List of FSContainers with all of the containers in the account.  
-     *         if there are no containers in the account, the list will be zero length.
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     * @throws FilesAuthorizationException The client's login was invalid.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listContainersInfo()
+	 */
     public List<FilesContainerInfo> listContainersInfo() throws IOException, HttpException, FilesAuthorizationException, FilesException
     {
     	return listContainersInfo(-1, null);
     }
     	
-    /**
-     * List the containers available in an account, ordered by container name.
-     * 
-     * @param limit The maximum number of containers to return.  -1 returns an unlimited number.
-     *
-     * @return null if the user is not logged in or the Account is not found.  A List of FSContainers with all of the containers in the account.  
-     *         if there are no containers in the account, the list will be zero length.
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     * @throws FilesAuthorizationException The client's login was invalid.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listContainersInfo(int)
+	 */
     public List<FilesContainerInfo> listContainersInfo(int limit) throws IOException, HttpException, FilesAuthorizationException, FilesException
     {
     	return listContainersInfo(limit, null);
     }
     	
-    /**
-     * List the containers available in an account, ordered by container name.
-     *
-     *  @param limit The maximum number of containers to return.  -1 returns an unlimited number.
-	 *  @param marker Return containers that occur after this lexicographically.  
-	 *  
-     *  @return null if the user is not logged in or the Account is not found.  A List of FSContainers with all of the containers in the account.  
-     *         if there are no containers in the account, the list will be zero length.
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     * @throws FilesAuthorizationException The client's login was invalid.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listContainersInfo(int, java.lang.String)
+	 */
     public List<FilesContainerInfo> listContainersInfo(int limit, String marker) throws IOException, HttpException, FilesAuthorizationException, FilesException
     {
     	if (!this.isLoggedin()) {
@@ -458,50 +420,24 @@ public class FilesClient
     	}
     }
 
-    /**
-     * List the containers available in an account.
-     *
-     * @return null if the user is not logged in or the Account is not found.  A List of FilesContainer with all of the containers in the account.  
-     *         if there are no containers in the account, the list will be zero length.
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     * @throws FilesAuthorizationException The client's login was invalid.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listContainers()
+	 */
     public List<FilesContainer> listContainers() throws IOException, HttpException, FilesAuthorizationException, FilesException
     {
     	return listContainers(-1, null);
     }
-   /**
-    * List the containers available in an account.
-    *
-    * @param limit The maximum number of containers to return.  -1 denotes no limit.
-
-    * @return null if the user is not logged in or the Account is not found.  A List of FilesContainer with all of the containers in the account.  
-    *         if there are no containers in the account, the list will be zero length.
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     * @throws FilesAuthorizationException The client's login was invalid.
-    */
+   /* (non-Javadoc)
+ * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listContainers(int)
+ */
      public List<FilesContainer> listContainers(int limit) throws IOException, HttpException, FilesAuthorizationException, FilesException
     {
     	return listContainers(limit, null);
     }
 
-    /**
-     * List the containers available in an account.
-     * 
-     * @param limit The maximum number of containers to return.  -1 denotes no limit.
-     * @param marker Only return containers after this container.  Null denotes starting at the beginning (lexicographically).  
-     *
-     * @return A List of FilesContainer with all of the containers in the account.  
-     *         if there are no containers in the account, the list will be zero length.
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     * @throws FilesAuthorizationException The client's login was invalid.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listContainers(int, java.lang.String)
+	 */
     public List<FilesContainer> listContainers(int limit, String marker) throws IOException, HttpException, FilesException
     {
     	if (!this.isLoggedin()) {
@@ -570,41 +506,16 @@ public class FilesClient
     	}
     }
 
-    /**
-     * List all of the objects in a container with the given starting string.
-     * 
-     * @param container  The container name
-     * @param startsWith The string to start with
-     * @param path Only look for objects in this path
-     * @param limit Return at most <code>limit</code> objects
-     * @param marker Returns objects lexicographically greater than <code>marker</code>.  Used in conjunction with <code>limit</code> to paginate the list.  
-     * 
-     * @return A list of FilesObjects starting with the given string
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     * @throws FilesAuthorizationException The client's login was invalid.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listObjectsStartingWith(java.lang.String, java.lang.String, java.lang.String, int, java.lang.String)
+	 */
     public List<FilesObject> listObjectsStartingWith (String container, String startsWith, String path, int limit, String marker) throws IOException, FilesException
     {
     	return listObjectsStartingWith(container, startsWith, path, limit, marker, null);
     }
-    /**
-         * List all of the objects in a container with the given starting string.
-         * 
-         * @param container  The container name
-         * @param startsWith The string to start with
-         * @param path Only look for objects in this path
-         * @param limit Return at most <code>limit</code> objects
-         * @param marker Returns objects lexicographically greater than <code>marker</code>.  Used in conjunction with <code>limit</code> to paginate the list.  
-         * @param delimter Use this argument as the delimiter that separates "directories"
-         * 
-         * @return A list of FilesObjects starting with the given string
-         * @throws IOException   There was an IO error doing network communication
-         * @throws HttpException There was an error with the http protocol
-         * @throws FilesException There was another error in the request to the server.
-         * @throws FilesAuthorizationException The client's login was invalid.
-         */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listObjectsStartingWith(java.lang.String, java.lang.String, java.lang.String, int, java.lang.String, java.lang.Character)
+	 */
         public List<FilesObject> listObjectsStartingWith (String container, String startsWith, String path, int limit, String marker, Character delimiter) throws IOException, FilesException
         {
     	if (!this.isLoggedin()) {
@@ -737,145 +648,65 @@ public class FilesClient
     	}
     }
 
-        /**
-         * List the objects in a container in lexicographic order.  
-         * 
-         * @param container  The container name
-         * 
-         * @return A list of FilesObjects starting with the given string
-         * @throws IOException   There was an IO error doing network communication
-         * @throws HttpException There was an error with the http protocol
-         * @throws FilesException There was another error in the request to the server.
-         * @throws FilesAuthorizationException The client's login was invalid.
-         */
+        /* (non-Javadoc)
+		 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listObjects(java.lang.String)
+		 */
         public List<FilesObject> listObjects(String container) throws IOException, FilesAuthorizationException, FilesException {
         	return listObjectsStartingWith(container, null, null, -1, null, null);
         }
 
-        /**
-         * List the objects in a container in lexicographic order.  
-         * 
-         * @param container  The container name
-         * @param delimter Use this argument as the delimiter that separates "directories"
-         * 
-         * @return A list of FilesObjects starting with the given string
-         * @throws IOException   There was an IO error doing network communication
-         * @throws HttpException There was an error with the http protocol
-         * @throws FilesException There was another error in the request to the server.
-         * @throws FilesAuthorizationException The client's login was invalid.
-         */
+        /* (non-Javadoc)
+		 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listObjects(java.lang.String, java.lang.Character)
+		 */
         public List<FilesObject> listObjects(String container, Character delimiter) throws IOException, FilesAuthorizationException, FilesException {
         	return listObjectsStartingWith(container, null, null, -1, null, delimiter);
         }
 
-    /**
-     * List the objects in a container in lexicographic order.  
-     * 
-     * @param container  The container name
-     * @param limit Return at most <code>limit</code> objects
-     * 
-     * @return A list of FilesObjects starting with the given string
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     * @throws FilesAuthorizationException The client's login was invalid.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listObjects(java.lang.String, int)
+	 */
     public List<FilesObject> listObjects(String container, int limit) throws IOException, HttpException, FilesAuthorizationException, FilesException {
     	return listObjectsStartingWith(container, null, null, limit, null, null);
     }
 
-    /**
-     * List the objects in a container in lexicographic order.  
-     * 
-     * @param container  The container name
-     * @param path Only look for objects in this path
-     * 
-     * @return A list of FilesObjects starting with the given string
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listObjects(java.lang.String, java.lang.String)
+	 */
     public List<FilesObject> listObjects(String container, String path) throws IOException, HttpException, FilesAuthorizationException, FilesException {
     	return listObjectsStartingWith(container, null, path, -1, null, null);
     }
 
-    /**
-     * List the objects in a container in lexicographic order.  
-     * 
-     * @param container  The container name
-     * @param path Only look for objects in this path
-     * @param delimter Use this argument as the delimiter that separates "directories"
-     * 
-     * @return A list of FilesObjects starting with the given string
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listObjects(java.lang.String, java.lang.String, java.lang.Character)
+	 */
     public List<FilesObject> listObjects(String container, String path, Character delimiter) throws IOException, HttpException, FilesAuthorizationException, FilesException {
     	return listObjectsStartingWith(container, null, path, -1, null, delimiter);
     }
 
-    /**
-     * List the objects in a container in lexicographic order.  
-     * 
-     * @param container  The container name
-     * @param path Only look for objects in this path
-     * @param limit Return at most <code>limit</code> objects
-     * @param marker Returns objects lexicographically greater than <code>marker</code>.  Used in conjunction with <code>limit</code> to paginate the list.  
-     * 
-     * @return A list of FilesObjects starting with the given string
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     * @throws FilesAuthorizationException The client's login was invalid.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listObjects(java.lang.String, java.lang.String, int)
+	 */
     public List<FilesObject> listObjects(String container, String path, int limit) throws IOException, HttpException, FilesAuthorizationException, FilesException {
     	return listObjectsStartingWith(container, null, path, limit, null);
     }
 
-    /**
-     * List the objects in a container in lexicographic order.  
-     * 
-     * @param container  The container name
-     * @param path Only look for objects in this path
-     * @param limit Return at most <code>limit</code> objects
-     * @param marker Returns objects lexicographically greater than <code>marker</code>.  Used in conjunction with <code>limit</code> to paginate the list.  
-     * 
-     * @return A list of FilesObjects starting with the given string
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listObjects(java.lang.String, java.lang.String, int, java.lang.String)
+	 */
     public List<FilesObject> listObjects(String container, String path, int limit, String marker) throws IOException, HttpException, FilesAuthorizationException, FilesException {
     	return listObjectsStartingWith(container, null, path, limit, marker);
     }
     
-    /**
-     * List the objects in a container in lexicographic order.  
-     * 
-     * @param container  The container name
-     * @param limit Return at most <code>limit</code> objects
-     * @param marker Returns objects lexicographically greater than <code>marker</code>.  Used in conjunction with <code>limit</code> to paginate the list.  
-     * 
-     * @return A list of FilesObjects starting with the given string
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     * @throws FilesAuthorizationException The client's login was invalid.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listObjects(java.lang.String, int, java.lang.String)
+	 */
     public List<FilesObject> listObjects(String container, int limit, String marker) throws IOException, HttpException, FilesAuthorizationException, FilesException {
     	return listObjectsStartingWith(container, null, null, limit, marker);
     }
 
-    /**
-     * Convenience method to test for the existence of a container in Cloud Files.
-     * 
-     * @param container
-     * @return true if the container exists.  false otherwise.
-     * @throws IOException
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#containerExists(java.lang.String)
+	 */
     public boolean containerExists (String container) throws IOException, HttpException
     {
         try {
@@ -887,16 +718,9 @@ public class FilesClient
         }
      }
       
-    /**
-     * Gets information for the given account.
-     * 
-     * @return The FilesAccountInfo with information about the number of containers and number of bytes used
-     *         by the given account.
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was another error in the request to the server.
-     * @throws FilesAuthorizationException The client's login was invalid.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getAccountInfo()
+	 */
    public FilesAccountInfo getAccountInfo() throws IOException, HttpException, FilesAuthorizationException, FilesException
    {
     	if (this.isLoggedin()) {
@@ -940,16 +764,9 @@ public class FilesClient
     	}
     }
 
-    /**
-     * Get basic information on a container (number of items and the total size).
-     *
-     * @param container The container to get information for
-     * @return ContainerInfo object of the container is present or null if its not present
-     * @throws IOException  There was a socket level exception while talking to CloudFiles
-     * @throws HttpException There was an protocol level exception while talking to Cloudfiles
-     * @throws FilesNotFoundException The container was not found
-     * @throws FilesAuthorizationException The client was not logged in or the log in expired.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getContainerInfo(java.lang.String)
+	 */
     public FilesContainerInfo getContainerInfo (String container) throws IOException, HttpException, FilesException
     {
     	if (this.isLoggedin())
@@ -1005,15 +822,9 @@ public class FilesClient
     }
 
 
-    /**
-     * Creates a container
-     *
-     * @param name The name of the container to be created
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesAuthorizationException The client was not property logged in
-     * @throws FilesInvalidNameException The container name was invalid
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#createContainer(java.lang.String)
+	 */
     public void createContainer(String name) throws IOException, HttpException, FilesAuthorizationException, FilesException
     {
     	if (this.isLoggedin())
@@ -1066,17 +877,9 @@ public class FilesClient
     	}
     }
 
-    /**
-     * Deletes a container
-     * 
-     * @param name  The name of the container
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesAuthorizationException The user is not Logged in
-     * @throws FilesInvalidNameException   The container name is invalid
-     * @throws FilesNotFoundException      The container doesn't exist
-     * @throws FilesContainerNotEmptyException The container was not empty
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#deleteContainer(java.lang.String)
+	 */
     public boolean deleteContainer(String name) throws IOException, HttpException, FilesAuthorizationException, FilesInvalidNameException, FilesNotFoundException, FilesContainerNotEmptyException
     {
     	if (this.isLoggedin())
@@ -1134,15 +937,9 @@ public class FilesClient
     	return false;
     }
     
-    /**
-     * Enables access of files in this container via the Content Delivery Network.
-     * 
-     * @param name The name of the container to enable
-     * @return The CDN Url of the container
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was an error talking to the CDN Server.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#cdnEnableContainer(java.lang.String)
+	 */
     public String cdnEnableContainer(String name) throws IOException, HttpException, FilesException
     {
     	String returnValue = null;
@@ -1198,6 +995,9 @@ public class FilesClient
     	return returnValue;
     }
     
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#cdnUpdateContainer(java.lang.String, int, boolean, boolean)
+	 */
     public String cdnUpdateContainer(String name, int ttl, boolean enabled, boolean retainLogs) 
     throws IOException, HttpException, FilesException
     {
@@ -1303,16 +1103,9 @@ public class FilesClient
     }
    
     
-    /**
-     * Gets current CDN sharing status of the container
-     * 
-     * @param name The name of the container to enable
-     * @return Information on the container
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was an error talking to the CloudFiles Server
-     * @throws FilesNotFoundException The Container has never been CDN enabled
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getCDNContainerInfo(java.lang.String)
+	 */
     public FilesCDNContainer getCDNContainerInfo(String container) throws IOException, FilesNotFoundException, HttpException, FilesException
     {
     	if (isLoggedin()) {
@@ -1392,16 +1185,9 @@ public class FilesClient
     	}
     }
     
-    /**
-     * Gets current CDN sharing status of the container
-     * 
-     * @param name The name of the container to enable
-     * @return Information on the container
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException There was an error talking to the CloudFiles Server
-     * @throws FilesNotFoundException The Container has never been CDN enabled
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#isCDNEnabled(java.lang.String)
+	 */
     public boolean isCDNEnabled(String container) throws IOException, HttpException, FilesException
     {
     	if (isLoggedin()) {
@@ -1466,15 +1252,9 @@ public class FilesClient
     }
     
     
-    /**
-     * Creates a path (but not any of the sub portions of the path)
-     * 
-     * @param container The name of the container.
-     * @param path  The name of the Path
-     * @throws HttpException There was an error at the protocol layer while talking to CloudFiles
-     * @throws IOException There was an error at the socket layer while talking to CloudFiles
-     * @throws FilesException There was another error while taking to the CloudFiles server
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#createPath(java.lang.String, java.lang.String)
+	 */
     public void createPath(String container, String path) throws HttpException, IOException, FilesException {
 
 		if (!isValidContainerName(container))
@@ -1485,16 +1265,9 @@ public class FilesClient
 				new HashMap<String, String>());
 	}
 
-    /**
-     * Create all of the path elements for the entire tree for a given path.  Thus, <code>createFullPath("myContainer", "foo/bar/baz")</code> 
-     * creates the paths "foo", "foo/bar" and "foo/bar/baz".
-     * 
-     * @param container The name of the container
-     * @param path The full name of the path
-     * @throws HttpException There was an error at the protocol layer while talking to CloudFiles
-     * @throws IOException There was an error at the socket layer while talking to CloudFiles
-     * @throws FilesException There was another error while taking to the CloudFiles server
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#createFullPath(java.lang.String, java.lang.String)
+	 */
     public void createFullPath(String container, String path) throws HttpException, IOException, FilesException {
     	String parts[] = path.split("/");
     	
@@ -1510,47 +1283,26 @@ public class FilesClient
     	
     }
 
-    /**
-     * Gets the names of all of the containers associated with this account.
-     * 
-     * @param limit The maximum number of container names to return
-     * @return A list of container names
-     * 
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listCdnContainers(int)
+	 */
     public List<String> listCdnContainers(int limit) throws IOException, HttpException, FilesException
     {
     	return listCdnContainers(limit, null);
     }
 
-    /**
-     * Gets the names of all of the containers associated with this account.
-     * 
-     * @return A list of container names
-     * 
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listCdnContainers()
+	 */
    public List<String> listCdnContainers() throws IOException, HttpException, FilesException
     {
     	return listCdnContainers(-1, null);
     }
 
     
-    /**
-     * Gets the names of all of the containers associated with this account.
-     * 
-     * @param limit The maximum number of container names to return
-     * @param marker All of the results will come after <code>marker</code> lexicographically.
-     * @return A list of container names
-     * 
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listCdnContainers(int, java.lang.String)
+	 */
     public List<String> listCdnContainers(int limit, String marker) throws IOException, HttpException, FilesException
     {
     	if (this.isLoggedin())
@@ -1612,17 +1364,9 @@ public class FilesClient
     	}
     }
     
-    /**
-     * Purges all items from a given container from the CDN
-     * 
-     * @param container The name of the container
-     * @param emailAddresses An optional comma separated list of email addresses to be notified when the purge is complete. 
-     *                       <code>null</code> if desired.
-     * @throws IOException Error talking to the cdn management server
-     * @throws HttpException Error with HTTP
-     * @throws FilesAuthorizationException Log in was not successful, or account is suspended 
-     * @throws FilesException Other error
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#purgeCDNContainer(java.lang.String, java.lang.String)
+	 */
     public void purgeCDNContainer(String container, String emailAddresses) throws IOException, HttpException, FilesAuthorizationException, FilesException {
     	if (! isLoggedin) {
     		throw new FilesAuthorizationException("You must be logged in", null, null);
@@ -1675,18 +1419,9 @@ public class FilesClient
 
     }
 
-    /**
-     * Purges all items from a given container from the CDN
-     * 
-     * @param container The name of the container
-     * @param object The name of the object
-     * @param emailAddresses An optional comma separated list of email addresses to be notified when the purge is complete. 
-     *                       <code>null</code> if desired.
-     * @throws IOException Error talking to the cdn management server
-     * @throws HttpException Error with HTTP
-     * @throws FilesAuthorizationException Log in was not successful, or account is suspended 
-     * @throws FilesException Other error
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#purgeCDNObject(java.lang.String, java.lang.String, java.lang.String)
+	 */
     public void purgeCDNObject(String container, String object, String emailAddresses) throws IOException, HttpException, FilesAuthorizationException, FilesException {
     	if (! isLoggedin) {
     		throw new FilesAuthorizationException("You must be logged in", null, null);
@@ -1740,44 +1475,23 @@ public class FilesClient
 
     }
 
-    /**
-     * Gets list of all of the containers associated with this account.
-     * 
-      * @return A list of containers
-     * 
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listCdnContainerInfo()
+	 */
     public List<FilesCDNContainer> listCdnContainerInfo() throws IOException, HttpException, FilesException
     {
     	return listCdnContainerInfo(-1, null);
     }
-    /**
-     * Gets list of all of the containers associated with this account.
-     * 
-     * @param limit The maximum number of container names to return
-     * @return A list of containers
-     * 
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listCdnContainerInfo(int)
+	 */
    public List<FilesCDNContainer> listCdnContainerInfo(int limit) throws IOException, HttpException, FilesException
     {
     	return listCdnContainerInfo(limit, null);
     }
-    /**
-     * Gets list of all of the containers associated with this account.
-     * 
-     * @param limit The maximum number of container names to return
-     * @param marker All of the names will come after <code>marker</code> lexicographically.
-     * @return A list of containers
-     * 
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#listCdnContainerInfo(int, java.lang.String)
+	 */
     public List<FilesCDNContainer> listCdnContainerInfo(int limit, String marker) throws IOException, HttpException, FilesException
     {
     	if (this.isLoggedin())
@@ -1895,54 +1609,23 @@ public class FilesClient
     		throw new FilesAuthorizationException("You must be logged in", null, null);
     	}
     }
-    /**
-     * Create a manifest on the server, including metadata
-     * 
-     * @param container   The name of the container
-     * @param obj         The File containing the file to copy over
-     * @param contentType The MIME type of the file
-     * @param name        The name of the file on the server
-     * @param manifest    Set manifest content here
-     * @param callback    The object to which any callbacks will be sent (null if you don't want callbacks)
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#createManifestObject(java.lang.String, java.lang.String, java.lang.String, java.lang.String, com.rackspacecloud.client.cloudfiles.IFilesTransferCallback)
+	 */
     public boolean createManifestObject(String container, String contentType, String name, String manifest, IFilesTransferCallback callback) throws IOException, HttpException, FilesException
     {
     	return createManifestObject(container, contentType, name, manifest, new HashMap<String, String>(), callback);
     }
-    /**
-     * Create a manifest on the server, including metadata
-     * 
-     * @param container   The name of the container
-     * @param obj         The File containing the file to copy over
-     * @param contentType The MIME type of the file
-     * @param name        The name of the file on the server
-     * @param manifest    Set manifest content here
-     * @param metadata    A map with the metadata as key names and values as the metadata values
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#createManifestObject(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.util.Map)
+	 */
     public boolean createManifestObject(String container, String contentType, String name, String manifest, Map<String,String> metadata) throws IOException, HttpException, FilesException
     {
     	return createManifestObject(container, contentType, name, manifest, metadata, null);
     }
-    /**
-     * Create a manifest on the server, including metadata
-     * 
-     * @param container   The name of the container
-     * @param obj         The File containing the file to copy over
-     * @param contentType The MIME type of the file
-     * @param name        The name of the file on the server
-     * @param manifest    Set manifest content here
-     * @param metadata    A map with the metadata as key names and values as the metadata values
-     * @param callback    The object to which any callbacks will be sent (null if you don't want callbacks)
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#createManifestObject(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.util.Map, com.rackspacecloud.client.cloudfiles.IFilesTransferCallback)
+	 */
     public boolean createManifestObject(String container, String contentType, String name, String manifest, Map<String,String> metadata, IFilesTransferCallback callback) throws IOException, HttpException, FilesException
     {
     	byte[] arr = new byte[0];
@@ -2026,72 +1709,33 @@ public class FilesClient
     	}
     }
 
-    /**
-     * Store a file on the server
-     * 
-     * @param container   The name of the container
-     * @param obj         The File containing the file to copy over
-     * @param contentType The MIME type of the file
-     * @param name        The name of the file on the server
-     * @return The ETAG if the save was successful, null otherwise
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#storeObjectAs(java.lang.String, java.io.File, java.lang.String, java.lang.String)
+	 */
     public String storeObjectAs (String container, File obj, String contentType, String name) throws IOException, HttpException, FilesException
     {
     	return storeObjectAs(container, obj, contentType, name, new HashMap<String,String>(), null);
     }	
     
-    /**
-     * Store a file on the server
-     * 
-     * @param container   The name of the container
-     * @param obj         The File containing the file to copy over
-     * @param contentType The MIME type of the file
-     * @param name        The name of the file on the server
-     * @return The ETAG if the save was successful, null otherwise
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#storeObjectAs(java.lang.String, java.io.File, java.lang.String, java.lang.String, com.rackspacecloud.client.cloudfiles.IFilesTransferCallback)
+	 */
     public String storeObjectAs (String container, File obj, String contentType, String name, IFilesTransferCallback callback) throws IOException, HttpException, FilesException
     {
     	return storeObjectAs(container, obj, contentType, name, new HashMap<String,String>(), callback);
     }	
     
-    /**
-     * Store a file on the server, including metadata
-     * 
-     * @param container   The name of the container
-     * @param obj         The File containing the file to copy over
-     * @param contentType The MIME type of the file
-     * @param name        The name of the file on the server
-     * @param metadata    A map with the metadata as key names and values as the metadata values
-     * @return The ETAG if the save was successful, null otherwise
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesAuthorizationException 
-      */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#storeObjectAs(java.lang.String, java.io.File, java.lang.String, java.lang.String, java.util.Map)
+	 */
     public String storeObjectAs (String container, File obj, String contentType, String name, Map<String,String> metadata) throws IOException, HttpException, FilesException
     {
     	return storeObjectAs (container, obj, contentType, name, metadata, null);
     }
     
-    /**
-     * Store a file on the server, including metadata
-     * 
-     * @param container   The name of the container
-     * @param obj         The File containing the file to copy over
-     * @param contentType The MIME type of the file
-     * @param name        The name of the file on the server
-     * @param metadata    A map with the metadata as key names and values as the metadata values
-     * @param metadata    The callback object that will be called as the data is sent
-     * @return The ETAG if the save was successful, null otherwise
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#storeObjectAs(java.lang.String, java.io.File, java.lang.String, java.lang.String, java.util.Map, com.rackspacecloud.client.cloudfiles.IFilesTransferCallback)
+	 */
     public String storeObjectAs (String container, File obj, String contentType, String name, Map<String,String> metadata, IFilesTransferCallback callback) throws IOException, HttpException, FilesException
     {
     	if (this.isLoggedin())
@@ -2178,52 +1822,25 @@ public class FilesClient
     }
 
 
-    /**
-     * Copies the file to Cloud Files, keeping the original file name in Cloud Files.
-     * 
-     * @param container    The name of the container to place the file in
-     * @param obj          The File to transfer
-     * @param contentType  The file's MIME type
-     * @return The ETAG if the save was successful, null otherwise
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#storeObject(java.lang.String, java.io.File, java.lang.String)
+	 */
     public String storeObject (String container, File obj, String contentType) throws IOException, HttpException, FilesException
     {
     	return storeObjectAs(container, obj, contentType, obj.getName());
     }
 
-    /**
-     * Store a file on the server, including metadata
-     * 
-     * @param container   The name of the container
-     * @param obj         The File containing the file to copy over
-     * @param contentType The MIME type of the file
-     * @param name        The name of the file on the server
-     * @param metadata    A map with the metadata as key names and values as the metadata values
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#storeObject(java.lang.String, byte[], java.lang.String, java.lang.String, java.util.Map)
+	 */
     public boolean storeObject(String container, byte obj[], String contentType, String name, Map<String,String> metadata) throws IOException, HttpException, FilesException
     {
     	return storeObject(container, obj, contentType, name, metadata, null);
     }
     
-    /**
-     * Store a file on the server, including metadata
-     * 
-     * @param container   The name of the container
-     * @param obj         The File containing the file to copy over
-     * @param contentType The MIME type of the file
-     * @param name        The name of the file on the server
-     * @param metadata    A map with the metadata as key names and values as the metadata values
-     * @param callback    The object to which any callbacks will be sent (null if you don't want callbacks)
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#storeObject(java.lang.String, byte[], java.lang.String, java.lang.String, java.util.Map, com.rackspacecloud.client.cloudfiles.IFilesTransferCallback)
+	 */
     public boolean storeObject(String container, byte obj[], String contentType, String name, Map<String,String> metadata, IFilesTransferCallback callback) throws IOException, HttpException, FilesException
     {
     	if (this.isLoggedin())
@@ -2308,21 +1925,9 @@ public class FilesClient
     	}
     }
     
-    /**
-     * Store a file on the server, including metadata, with the contents coming from an input stream.  This allows you to 
-     * not know the entire length of your content when you start to write it.  Nor do you have to hold it entirely in memory
-     * at the same time.
-     * 
-     * @param container   The name of the container
-     * @param data        Any object that implements InputStream
-     * @param contentType The MIME type of the file
-     * @param name        The name of the file on the server
-     * @param metadata    A map with the metadata as key names and values as the metadata values
-     * @param callback    The object to which any callbacks will be sent (null if you don't want callbacks)
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#storeStreamedObject(java.lang.String, java.io.InputStream, java.lang.String, java.lang.String, java.util.Map)
+	 */
     public String storeStreamedObject(String container, InputStream data, String contentType, String name, Map<String,String> metadata) throws IOException, HttpException, FilesException
     {
     	if (this.isLoggedin())
@@ -2375,19 +1980,9 @@ public class FilesClient
     	}
     }
 
-   /**
-    * 
-    * 
-    * @param container The name of the container
-    * @param name The name of the object
-    * @param entity The name of the request entity (make sure to set the Content-Type
-    * @param metadata The metadata for the object
-    * @param md5sum The 32 character hex encoded MD5 sum of the data
-    * @return The ETAG if the save was successful, null otherwise
-    * @throws IOException There was a socket level exception talking to CloudFiles
-    * @throws HttpException There was a protocol level error talking to CloudFiles
-    * @throws FilesException There was an error talking to CloudFiles.
-    */
+   /* (non-Javadoc)
+ * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#storeObjectAs(java.lang.String, java.lang.String, org.apache.http.HttpEntity, java.util.Map, java.lang.String)
+ */
 public String storeObjectAs(String container, String name, HttpEntity entity, Map<String,String> metadata, String md5sum) throws IOException, HttpException, FilesException
     {
     	if (this.isLoggedin())
@@ -2452,19 +2047,9 @@ public String storeObjectAs(String container, String name, HttpEntity entity, Ma
     	}
     }
 
-    /**
-     * This method copies the object found in the source container with the
-     * source object name to the destination container with the destination
-     * object name.
-     * @param sourceContainer of object to copy
-     * @param sourceObjName of object to copy
-     * @param destContainer where object copy will be copied
-     * @param destObjName of object copy
-     * @return ETAG if successful, else null
-     * @throws IOException indicates a socket level error talking to CloudFiles
-     * @throws HttpException indicates a protocol level error talking to CloudFiles
-     * @throws FilesException indicates an error talking to CloudFiles
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#copyObject(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
     public String copyObject(String sourceContainer,
                              String sourceObjName,
                              String destContainer,
@@ -2542,16 +2127,9 @@ public String storeObjectAs(String container, String name, HttpEntity entity, Ma
         return etag;
     }
 
-    /**
-     * Delete the given object from it's container.
-     * 
-     * @param container  The container name
-     * @param objName    The object name
-     * @return FilesConstants.OBJECT_DELETED
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#deleteObject(java.lang.String, java.lang.String)
+	 */
     public void deleteObject (String container, String objName) throws IOException, FilesNotFoundException, HttpException, FilesException
     {
     	if (this.isLoggedin())
@@ -2607,18 +2185,9 @@ public String storeObjectAs(String container, String name, HttpEntity entity, Ma
     	}
     }
 
-    /**
-     * Get an object's metadata
-     * 
-     * @param container The name of the container
-     * @param objName   The name of the object
-     * @return The object's metadata
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesAuthorizationException The Client's Login was invalid.  
-     * @throws FilesInvalidNameException The container or object name was not valid
-     * @throws FilesNotFoundException The file was not found
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getObjectMetaData(java.lang.String, java.lang.String)
+	 */
     public FilesObjectMetaData getObjectMetaData (String container, String objName) throws IOException, FilesNotFoundException, HttpException, FilesAuthorizationException, FilesInvalidNameException
     {
     	FilesObjectMetaData metaData;
@@ -2696,18 +2265,9 @@ public String storeObjectAs(String container, String name, HttpEntity entity, Ma
     }
 
 
-    /**
-     * Get the content of the given object
-     * 
-     * @param container  The name of the container
-     * @param objName    The name of the object
-     * @return The content of the object
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesAuthorizationException 
-     * @throws FilesInvalidNameException 
-     * @throws FilesNotFoundException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getObject(java.lang.String, java.lang.String)
+	 */
     public byte[] getObject (String container, String objName) throws IOException, HttpException, FilesAuthorizationException, FilesInvalidNameException, FilesNotFoundException
     {
     	if (this.isLoggedin())
@@ -2752,18 +2312,9 @@ public String storeObjectAs(String container, String name, HttpEntity entity, Ma
     	return null;
     }
 
-    /**
-     * Get's the given object's content as a stream
-     * 
-     * @param container  The name of the container
-     * @param objName    The name of the object
-     * @return An input stream that will give the objects content when read from.
-     * @throws IOException   There was an IO error doing network communication
-     * @throws HttpException There was an error with the http protocol
-     * @throws FilesAuthorizationException 
-     * @throws FilesNotFoundException The container does not exist
-     * @throws FilesInvalidNameException 
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getObjectAsStream(java.lang.String, java.lang.String)
+	 */
     public InputStream getObjectAsStream (String container, String objName) throws IOException, HttpException, FilesAuthorizationException, FilesInvalidNameException, FilesNotFoundException
     {
     	if (this.isLoggedin())
@@ -2970,140 +2521,127 @@ public String storeObjectAs(String container, String name, HttpEntity entity, Ma
    	
     }
 
-    /**
-     * @return The connection timeout used for communicating with the server (in milliseconds)
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getConnectionTimeOut()
+	 */
     public int getConnectionTimeOut()
     {
     	return connectionTimeOut;
     }
 
-    /**
-     * The timeout we will use for communicating with the server (in milliseconds)
-     * 
-     * @param connectionTimeOut The new timeout for this connection
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#setConnectionTimeOut(int)
+	 */
     public void setConnectionTimeOut(int connectionTimeOut)
     {
     	this.connectionTimeOut = connectionTimeOut;
     }
 
-    /**
-     * @return The storage URL on the other end of the ReST api
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getStorageURL()
+	 */
     public String getStorageURL()
     {
     	return storageURL;
     }
 
-    /**
-     * @return Get's our storage token.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getStorageToken()
+	 */
     @Deprecated
     public String getStorageToken()
     {
     	return authToken;
     }
 
-    /**
-     * @return Get's our storage token.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getAuthToken()
+	 */
     public String getAuthToken()
     {
     	return authToken;
     }
 
-    /**
-     * Has this instance of the client authenticated itself?  Note, this does not mean that a call 
-     * right now will work, if the auth token has timed out, you will need to re-auth.
-     * 
-     * @return True if we logged in, false otherwise.
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#isLoggedin()
+	 */
     public boolean isLoggedin()
     {
     	return isLoggedin;
     }
 
-    /**
-     * The username we are logged in with.
-     * 
-     * @return The username
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getUserName()
+	 */
     public String getUserName()
     {
     	return username;
     }
 
-    /**
-     * Set's the username for this client. Note, setting this after login has no real impact unless the <code>login()</code>
-     * method is called again.
-     * 
-     * @param userName the username
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#setUserName(java.lang.String)
+	 */
     public void setUserName(String userName)
     {
     	this.username = userName;
     }
 
-    /**
-     * The password the client will use for the login.
-     * 
-     * @return The password
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getPassword()
+	 */
     public String getPassword()
     {
     	return password;
     }
 
-    /**
-     * Set's the password for this client. Note, setting this after login has no real impact unless the <code>login()</code>
-     * method is called again.
-	 *
-     * @param password The new password
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#setPassword(java.lang.String)
+	 */
     public void setPassword(String password)
     {
     	this.password = password;
     }
 
-    /**
-     * The URL we will use for Authentication
-     * 
-     * @return The URL (represented as a string)
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getAuthenticationURL()
+	 */
     public String getAuthenticationURL()
     {
     	return authenticationURL;
     }
 
-    /**
-     * Changes the URL of the authentication service.  Note, if one is logged in, this doesn't have an effect unless one calls login again.
-     * 
-     * @param authenticationURL The new authentication URL
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#setAuthenticationURL(java.lang.String)
+	 */
     public void setAuthenticationURL(String authenticationURL)
     {
     	this.authenticationURL = authenticationURL;
     }
 
-	/**
-	 * @return the useETag
+	/* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getUseETag()
 	 */
 	public boolean getUseETag() {
 		return useETag;
 	}
 
-	/**
-	 * @param useETag the useETag to set
+	/* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#setUseETag(boolean)
 	 */
 	public void setUseETag(boolean useETag) {
 		this.useETag = useETag;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#setUserAgent(java.lang.String)
+	 */
 	public void setUserAgent(String userAgent) {
 		client.getParams().setParameter(HTTP.USER_AGENT, userAgent);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getUserAgent()
+	 */
 	public String getUserAgent() {
 		return client.getParams().getParameter(HTTP.USER_AGENT).toString();
 	}
@@ -3124,34 +2662,34 @@ public String storeObjectAs(String container, String name, HttpEntity entity, Ma
 		return true;
 	}
 
-	/**
-	 * @return the cdnManagementURL
+	/* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#getCdnManagementURL()
 	 */
 	public String getCdnManagementURL() {
 		return cdnManagementURL;
 	}
 	
 
-    /**
-     * @param config
-     */
+    /* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#updateObjectManifest(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public boolean updateObjectManifest(String container, String object, String manifest) throws FilesAuthorizationException, 
 			HttpException, IOException, FilesInvalidNameException
 			{
 		      return updateObjectMetadataAndManifest(container, object, new HashMap<String, String>(), manifest);
 			}
-	/**
-     * @param config
-     */
+	/* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#updateObjectMetadata(java.lang.String, java.lang.String, java.util.Map)
+	 */
 	public boolean updateObjectMetadata(String container, String object, 
 			Map<String,String> metadata) throws FilesAuthorizationException, 
 			HttpException, IOException, FilesInvalidNameException
 			{
 			    return updateObjectMetadataAndManifest(container, object, metadata, null);
 			}
-	/**
-     * @param config
-     */
+	/* (non-Javadoc)
+	 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#updateObjectMetadataAndManifest(java.lang.String, java.lang.String, java.util.Map, java.lang.String)
+	 */
 		public boolean updateObjectMetadataAndManifest(String container, String object, 
 			Map<String,String> metadata, String manifest) throws FilesAuthorizationException, 
 			HttpException, IOException, FilesInvalidNameException {
@@ -3232,6 +2770,9 @@ public String storeObjectAs(String container, String name, HttpEntity entity, Ma
 			}
 		}
 		*/
+		/* (non-Javadoc)
+		 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#useSnet()
+		 */
 		public void useSnet(){
 			if(snet){
 			}
@@ -3242,6 +2783,9 @@ public String storeObjectAs(String container, String name, HttpEntity entity, Ma
 			 }
 			}
 		}
+		/* (non-Javadoc)
+		 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#usePublic()
+		 */
 		public void usePublic(){
 			if(!snet){
 			}
@@ -3252,6 +2796,9 @@ public String storeObjectAs(String container, String name, HttpEntity entity, Ma
 			}
 			}
 		}
+		/* (non-Javadoc)
+		 * @see com.rackspacecloud.client.cloudfiles.FilesClientInterface#usingSnet()
+		 */
 		public boolean usingSnet(){
 			return snet;
 		}

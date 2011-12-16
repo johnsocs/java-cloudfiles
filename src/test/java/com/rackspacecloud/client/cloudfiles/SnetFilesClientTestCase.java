@@ -42,7 +42,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	private static int NUMBER_RANDOM_BYTES = 513;
 	
 	public void testConstructor() {
-		FilesClient client = new FilesClient("foo", "bar", "baz");
+		FilesClientInterface client = new FilesClient("foo", "bar", "baz");
 		
 		assertNotNull(client);
 		assertEquals("foo", client.getUserName());
@@ -52,7 +52,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	}
 
 	public void testNoArgConstructor() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		
 		assertNotNull(client);
 		assertEquals(FilesUtil.getProperty("username"), client.getUserName());
@@ -61,7 +61,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	}
 
 	public void testLogin() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		
 		try {
 			client.useSnet();
@@ -86,7 +86,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	public void testAccountInfo() {
 		String containerName = createTempContainerName("byte-array");
 		String filename = makeFileName("accountinfo");
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -124,7 +124,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	
 	public void testMultipleFilesNotThere() {
 	    // Tests to make sure we're releasing connections with 404's
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		String filename = makeFileName("random");
 		String fullPath = FilenameUtils.concat(SYSTEM_TMP.getAbsolutePath(), filename);
 		try {
@@ -166,7 +166,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	}
 
 	public void testContainerCreation() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -207,7 +207,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		} 
 	}
 	public void testSnetToggle() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			client.useSnet();
@@ -249,7 +249,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		} 
 	}
 	public void testContainerNotThereDeletion() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -279,7 +279,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	}
 	
 	public void testContainerCreationWithSpaces() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -330,7 +330,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	}
 	
 	public void testContainerInfoListing() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -385,7 +385,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	}
 	
 	public void testUserAgent() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		assertEquals(FilesConstants.USER_AGENT, client.getUserAgent());
 		client.setUserAgent("Java-Test-User-Agent");
 		assertEquals("Java-Test-User-Agent", client.getUserAgent());
@@ -418,7 +418,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	}
 	
 	public void testContainerNameNoSlashes() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -450,7 +450,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			client.useSnet();
 			assertTrue(client.usingSnet());
 			assertTrue(client.login());
@@ -502,7 +502,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			client.useSnet();
 			assertTrue(client.usingSnet());
 			assertTrue(client.login());
@@ -552,7 +552,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			client.useSnet();
 			assertTrue(client.usingSnet());
 			assertTrue(client.login());
@@ -609,7 +609,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			client.useSnet();
 			assertTrue(client.usingSnet());
 			assertTrue(client.login());
@@ -679,7 +679,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			assertTrue(client.getUseETag());
 			client.setUseETag(false);
 			assertFalse(client.getUseETag());
@@ -732,7 +732,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			client.useSnet();
 			assertTrue(client.usingSnet());
 			assertTrue(client.login());
@@ -783,7 +783,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		String filename = makeFileName("</name></object>");
 		try {
 			byte randomData[] = makeRandomBytes();
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			client.useSnet();
 			assertTrue(client.usingSnet());
 			assertTrue(client.login());
@@ -830,7 +830,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		String filename = makeFileName("bytearray");
 		try {
 			byte randomData[] = makeRandomBytes();
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			// client.setUseETag(false);
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -875,7 +875,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		String filename = makeFileName("/[]<>{}!@#$%^&*()_-+=|,.?/");
 		try {
 			byte randomData[] = makeRandomBytes();
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			// client.setUseETag(false);
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -920,7 +920,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		String filename = makeFileName("req-entity");
 		try {
 			byte randomData[] = makeRandomBytes();
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			client.useSnet();
 			assertTrue(client.usingSnet());
 			assertTrue(client.login());
@@ -963,7 +963,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		String containerName = createTempContainerName("object-listing-marker");
 		try {
 			byte randomData[] = makeRandomBytes();
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			// client.setUseETag(false);
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -1019,7 +1019,7 @@ public class SnetFilesClientTestCase extends TestCase {
 
 	public void testContainerListingWithLimitMarker() {
 		try {
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			client.useSnet();
 			assertTrue(client.usingSnet());
 			assertTrue(client.login());
@@ -1065,7 +1065,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		String filename = makeFileName("bytearray");
 		try {
 			byte randomData[] = makeRandomBytes(1024 * 100); // 100 K to make sure we do more with the callback
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			// client.setUseETag(false);
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -1119,7 +1119,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		String filename = makeFileName("streamed");
 		try {
 			byte randomData[] = makeRandomBytes(1024 * 100); // 100 K to make sure it's interesting
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			client.useSnet();
 			assertTrue(client.usingSnet());
 			assertTrue(client.login());
@@ -1171,7 +1171,7 @@ public class SnetFilesClientTestCase extends TestCase {
 			while(zeroStripMd5Sum(randomData).length() ==32) {
 				randomData = makeRandomBytes();
 			}
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			// client.setUseETag(false);
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -1240,7 +1240,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	public void testUnicodeContainer() {
 		String containerName = createTempContainerName("\u0169\u00f1\u00efcode-test-\u03de");
 		try {
-			FilesClient client = new FilesClient(FilesUtil.getProperty("username"), FilesUtil.getProperty("password"), FilesUtil.getProperty("account"));
+			FilesClientInterface client = new FilesClient(FilesUtil.getProperty("username"), FilesUtil.getProperty("password"), FilesUtil.getProperty("account"));
 			client.useSnet();
 			assertTrue(client.usingSnet());
 			assertTrue(client.login());
@@ -1273,7 +1273,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient(FilesUtil.getProperty("username"), FilesUtil.getProperty("password"), FilesUtil.getProperty("account"));
+			FilesClientInterface client = new FilesClient(FilesUtil.getProperty("username"), FilesUtil.getProperty("password"), FilesUtil.getProperty("account"));
 			client.useSnet();
 			assertTrue(client.usingSnet());
 			assertTrue(client.login());
@@ -1323,7 +1323,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	}
 	
 	public void testCDNContainerList() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -1337,7 +1337,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	}
 	
 	public void testCDNContainerListLimitMarker() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -1364,7 +1364,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		} 
 	}
 	public void testCDNContainerFullListing() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -1393,7 +1393,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	
 	
 	public void testCDNContainerFullListingAll() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -1412,7 +1412,7 @@ public class SnetFilesClientTestCase extends TestCase {
 		String containerName = createTempContainerName("java api Test\u03DA_\u2042\u03de#<>\u2043\u2042\u2044\u2045");
 		//containerName = createTempContainerName("java Api Test no uniocde");
 		//logger.warn("Container:" + containerName.length() + ":" + containerName);
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -1470,7 +1470,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	
 	// Test container name limits
 	public void testContainerNameLimits()  {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -1495,7 +1495,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	}
 	
 	public void testPathCreationAndListing() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -1540,7 +1540,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	}
 	
 	public void testPathCreation() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -1584,7 +1584,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	}
 	
 	public void testFilesObjectPath() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());
@@ -1629,7 +1629,7 @@ public class SnetFilesClientTestCase extends TestCase {
 	
 	public void testURLs() {
 		// Test to make sure these are getting set and are visible to the outside world (needed for Cyberduck's SSL).
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			client.useSnet();
 			assertTrue(client.usingSnet());

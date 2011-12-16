@@ -45,7 +45,7 @@ public class FilesClientTestCase extends TestCase {
 	private static int NUMBER_RANDOM_BYTES = 513;
 	
 	public void testConstructor() {
-		FilesClient client = new FilesClient("foo", "bar");
+		FilesClientInterface client = new FilesClient("foo", "bar");
 		
 		assertNotNull(client);
 		assertEquals("foo", client.getUserName());
@@ -54,7 +54,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 
 	public void testNoArgConstructor() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		
 		assertNotNull(client);
 		assertEquals(FilesUtil.getProperty("username"), client.getUserName());
@@ -63,7 +63,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 
 	public void testLogin() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		
 		try {
 			assertTrue(client.login());
@@ -88,7 +88,7 @@ public class FilesClientTestCase extends TestCase {
 	public void testAccountInfo() {
 		String containerName = createTempContainerName("acct-info");
 		String filename = makeFileName("accountinfo");
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			
@@ -125,7 +125,7 @@ public class FilesClientTestCase extends TestCase {
 	
 	public void testMultipleFilesNotThere() {
 	    // Tests to make sure we're releasing connections with 404's
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		String filename = makeFileName("random");
 		String fullPath = FilenameUtils.concat(SYSTEM_TMP.getAbsolutePath(), filename);
 		try {
@@ -165,7 +165,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 
 	public void testContainerCreation() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			String containerName = createTempContainerName("container");
@@ -208,7 +208,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 	
 	public void testAlternateLoginMethod() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			String containerName = createTempContainerName("container");
@@ -227,7 +227,7 @@ public class FilesClientTestCase extends TestCase {
 			assertNotNull(client.getContainerInfo(containerName));
 			
 			// Create a new Client
-			FilesClient newClient = new FilesClient();
+			FilesClientInterface newClient = new FilesClient();
 			newClient.login(client.getAuthToken(), client.getStorageURL(), client.getCdnManagementURL());
 			
 			// See that it's still there
@@ -259,7 +259,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 	
 	public void testContainerNotThereDeletion() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			String containerName = createTempContainerName("I'mNotHere!");
@@ -287,7 +287,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 	
 	public void testContainerCreationWithSpaces() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			String containerName = createTempContainerName("with space+and+plus");
@@ -337,7 +337,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 	
 	public void testContainerInfoListing() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			String containerName = createTempContainerName("<container with\u1422 spaces>");
@@ -390,7 +390,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 	
 	public void testUserAgent() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		assertEquals(FilesConstants.USER_AGENT, client.getUserAgent());
 		client.setUserAgent("Java-Test-User-Agent");
 		assertEquals("Java-Test-User-Agent", client.getUserAgent());
@@ -421,7 +421,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 	
 	public void testContainerNameNoSlashes() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			String containerName = createTempContainerName("/");
@@ -453,7 +453,7 @@ public class FilesClientTestCase extends TestCase {
 			
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			
-			FilesClient client = new FilesClient(httpClient,
+			FilesClientInterface client = new FilesClient(httpClient,
 					FilesUtil.getProperty("username"), 
 					FilesUtil.getProperty("password"),
 					null,
@@ -508,7 +508,7 @@ public class FilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			assertTrue(client.login());
 			
 			// Set up
@@ -555,7 +555,7 @@ public class FilesClientTestCase extends TestCase {
 		String filename = makeFileName("slash/backslash\\slash");
 		try {
 			byte randomData[] = makeRandomBytes();
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			// client.setUseETag(false);
 			assertTrue(client.login());
 			
@@ -600,7 +600,7 @@ public class FilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			assertTrue(client.login());
 			
 			// Set up
@@ -648,7 +648,7 @@ public class FilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			assertTrue(client.login());
 			
 			// Set up
@@ -702,7 +702,7 @@ public class FilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			assertTrue(client.login());
 			
 			// Set up
@@ -774,7 +774,7 @@ public class FilesClientTestCase extends TestCase {
 			// DefaultHttpClient is single threaded, which will catch a big we've seen with not
 			// releasing the connection
 			DefaultHttpClient httpClient = new DefaultHttpClient();
-			FilesClient client = new FilesClient(httpClient,
+			FilesClientInterface client = new FilesClient(httpClient,
 					FilesUtil.getProperty("username"), 
 					FilesUtil.getProperty("password"),
 					null,
@@ -857,7 +857,7 @@ public class FilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			assertTrue(client.getUseETag());
 			client.setUseETag(false);
 			assertFalse(client.getUseETag());
@@ -935,7 +935,7 @@ public class FilesClientTestCase extends TestCase {
         logger.info("Test Copy File Location: " + fullPath);
         try {
             byte randomData[] = makeRandomFile(fullPath);
-            FilesClient client = new FilesClient();
+            FilesClientInterface client = new FilesClient();
             assertTrue(client.login());
 
             // Set up
@@ -1006,7 +1006,7 @@ public class FilesClientTestCase extends TestCase {
                                     String objName,
                                     String mime,
                                     byte[] data,
-                                    FilesClient client)
+                                    FilesClientInterface client)
         throws IOException, HttpException {
 
         // Make sure it's there
@@ -1036,7 +1036,7 @@ public class FilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			assertTrue(client.login());
 			
 			// Set up
@@ -1085,7 +1085,7 @@ public class FilesClientTestCase extends TestCase {
 		String filename = makeFileName("</name></object>");
 		try {
 			byte randomData[] = makeRandomBytes();
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			assertTrue(client.login());
 			
 			// Set up
@@ -1131,7 +1131,7 @@ public class FilesClientTestCase extends TestCase {
 		String filename = makeFileName("bytearray");
 		try {
 			byte randomData[] = makeRandomBytes();
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			// client.setUseETag(false);
 			assertTrue(client.login());
 			
@@ -1174,7 +1174,7 @@ public class FilesClientTestCase extends TestCase {
 		String filename = makeFileName("/[]<>{}!@#$%^&*()_-+=|,.?/");
 		try {
 			byte randomData[] = makeRandomBytes();
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			// client.setUseETag(false);
 			assertTrue(client.login());
 
@@ -1218,7 +1218,7 @@ public class FilesClientTestCase extends TestCase {
 		String filename = makeFileName("req-entity");
 		try {
 			byte randomData[] = makeRandomBytes();
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			assertTrue(client.login());
 			
 			// Set up
@@ -1262,7 +1262,7 @@ public class FilesClientTestCase extends TestCase {
 		String containerName = createTempContainerName("object-listing-marker");
 		try {
 			byte randomData[] = makeRandomBytes();
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			// client.setUseETag(false);
 			assertTrue(client.login());
 			
@@ -1318,7 +1318,7 @@ public class FilesClientTestCase extends TestCase {
 		String containerName = createTempContainerName("delimiter");
 		try {
 			byte randomData[] = makeRandomBytes();
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			assertTrue(client.login());
 			
 			// Set up
@@ -1363,7 +1363,7 @@ public class FilesClientTestCase extends TestCase {
 
 	public void testContainerListingWithLimitMarker() {
 		try {
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			assertTrue(client.login());
 			
 			// Populate our  account
@@ -1407,7 +1407,7 @@ public class FilesClientTestCase extends TestCase {
 		String filename = makeFileName("bytearray");
 		try {
 			byte randomData[] = makeRandomBytes(1024 * 100); // 100 K to make sure we do more with the callback
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			// client.setUseETag(false);
 			assertTrue(client.login());
 			
@@ -1459,7 +1459,7 @@ public class FilesClientTestCase extends TestCase {
 		String filename = makeFileName("streamed");
 		try {
 			byte randomData[] = makeRandomBytes(1024 * 100); // 100 K to make sure it's interesting
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			assertTrue(client.login());
 			
 			// Set up
@@ -1509,7 +1509,7 @@ public class FilesClientTestCase extends TestCase {
 			while(zeroStripMd5Sum(randomData).length() ==32) {
 				randomData = makeRandomBytes();
 			}
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			// client.setUseETag(false);
 			assertTrue(client.login());
 			
@@ -1576,7 +1576,7 @@ public class FilesClientTestCase extends TestCase {
 	public void testUnicodeContainer() {
 		String containerName = createTempContainerName("\u0169\u00f1\u00efcode-test-\u03de");
 		try {
-			FilesClient client = new FilesClient(FilesUtil.getProperty("username"), FilesUtil.getProperty("password"), FilesUtil.getProperty("account"));
+			FilesClientInterface client = new FilesClient(FilesUtil.getProperty("username"), FilesUtil.getProperty("password"), FilesUtil.getProperty("account"));
 			assertTrue(client.login());
 			
 			// Set up
@@ -1607,7 +1607,7 @@ public class FilesClientTestCase extends TestCase {
 		logger.info("Test File Location: " + fullPath);
 		try {
 			byte randomData[] = makeRandomFile(fullPath);
-			FilesClient client = new FilesClient(FilesUtil.getProperty("username"), FilesUtil.getProperty("password"), FilesUtil.getProperty("account"));
+			FilesClientInterface client = new FilesClient(FilesUtil.getProperty("username"), FilesUtil.getProperty("password"), FilesUtil.getProperty("account"));
 			assertTrue(client.login());
 			
 			// Set up
@@ -1655,7 +1655,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 	
 	public void testCDNContainerList() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			
@@ -1668,7 +1668,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 	
 	public void testCDNContainerListLimitMarker() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 						
@@ -1693,7 +1693,7 @@ public class FilesClientTestCase extends TestCase {
 		} 
 	}
 	public void testCDNContainerFullListing() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			
@@ -1725,7 +1725,7 @@ public class FilesClientTestCase extends TestCase {
 		String filename = makeFileName("cdnURLtest");
 		try {
 			byte randomData[] = makeRandomBytes();
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			// client.setUseETag(false);
 			assertTrue(client.login());
 			
@@ -1756,7 +1756,7 @@ public class FilesClientTestCase extends TestCase {
 	public void testCDNPurge() {
 		String containerName = createTempContainerName("cdnPurgeTest");
 		try {
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			// client.setUseETag(false);
 			assertTrue(client.login());
 			
@@ -1781,7 +1781,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 	
 	public void testCDNContainerFullListingAll() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			String container = createTempContainerName("aaa_\u1422_aaa");
@@ -1798,7 +1798,7 @@ public class FilesClientTestCase extends TestCase {
 		String containerName = createTempContainerName("java api Test\u03DA_\u2042\u03de#<>\u2043\u2042\u2044\u2045");
 		//containerName = createTempContainerName("java Api Test no uniocde");
 		//logger.warn("Container:" + containerName.length() + ":" + containerName);
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			
@@ -1856,7 +1856,7 @@ public class FilesClientTestCase extends TestCase {
 	
 	// Test container name limits
 	public void testContainerNameLimits()  {
-		FilesClient fc = new FilesClient();
+		FilesClientInterface fc = new FilesClient();
 		try {
 			assertTrue(fc.login());
 			StringBuilder nameBuilder = new StringBuilder(createTempContainerName("long"));
@@ -1879,7 +1879,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 	
 	public void testPathCreationAndListing() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			String containerName = createTempContainerName("pathTest");
@@ -1921,7 +1921,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 	
 	public void testPathCreation() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			String containerName = createTempContainerName("pathTest");
@@ -1963,7 +1963,7 @@ public class FilesClientTestCase extends TestCase {
 	}
 	
 	public void testFilesObjectPath() {
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			String containerName = createTempContainerName("FOpathTest");
@@ -2006,7 +2006,7 @@ public class FilesClientTestCase extends TestCase {
 	
 	public void testURLs() {
 		// Test to make sure these are getting set and are visible to the outside world (needed for Cyberduck's SSL).
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		try {
 			assertTrue(client.login());
 			assertNotNull(client.getCdnManagementURL());

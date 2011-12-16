@@ -80,7 +80,7 @@ public class FilesRemove
 		{
 			String container = objectNameWithPath.substring(0, firstSlashLocation - 1);
 			String object = objectNameWithPath.substring(firstSlashLocation + 1);
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 			if ( client.login() ) {
 				client.deleteObject(container, object);
 			}
@@ -107,7 +107,7 @@ public class FilesRemove
 
 		//Check to see if a Container with this name already exists
 
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		if ( client.login() )
 		{
 			if(recurse) {

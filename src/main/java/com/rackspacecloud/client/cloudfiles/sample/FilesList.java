@@ -100,7 +100,7 @@ public class FilesList
 	private static void printContainer (String containerName, boolean humanReadable) throws IOException, HttpException, FilesException
 	{
 		boolean notFound = true;
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		if ( client.login() )
 		{
 			List<FilesContainer> containers = client.listContainers();
@@ -141,7 +141,7 @@ public class FilesList
 
 	private static void printContainersAll (boolean humanReadable) throws IOException, HttpException, FilesException
 	{
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		if ( client.login() )
 		{
 			List<FilesContainer> containers = client.listContainers();
@@ -172,7 +172,7 @@ public class FilesList
 
 	private static void printContainers (boolean humanReadable) throws IOException, HttpException, FilesException
 	{
-		FilesClient client = new FilesClient();
+		FilesClientInterface client = new FilesClient();
 		if ( client.login() )
 		{
 			List<FilesContainer> containers = client.listContainers();

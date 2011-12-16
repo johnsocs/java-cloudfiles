@@ -17,6 +17,7 @@ import java.util.Map;
 
 import com.rackspacecloud.client.cloudfiles.FilesAccountInfo;
 import com.rackspacecloud.client.cloudfiles.FilesClient;
+import com.rackspacecloud.client.cloudfiles.FilesClientInterface;
 import com.rackspacecloud.client.cloudfiles.FilesConstants;
 import com.rackspacecloud.client.cloudfiles.FilesContainer;
 import com.rackspacecloud.client.cloudfiles.FilesContainerExistsException;
@@ -32,7 +33,7 @@ import com.rackspacecloud.client.cloudfiles.FilesObjectMetaData;
  *
  */
 public class FilesCli {
-	FilesClient client = null;
+	FilesClientInterface client = null;
 	BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
 	
 	private boolean doLogin() {

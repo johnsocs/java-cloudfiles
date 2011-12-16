@@ -16,7 +16,7 @@ public class LongRunningTest {
 	 */
 	public static void main(String[] args) {
 		try {
-			FilesClient client = new FilesClient();
+			FilesClientInterface client = new FilesClient();
 	
 			client.login();
 			
